@@ -1,7 +1,0 @@
-New log file opened at Sun Apr 30 12:01:36 WEST 2017 by 30515@ezzahraoui-Latitude-E7450
-Taking next connection to: 36069
-New client attempting to connect on port: 54812-36069
-  Address = /127.0.1.1:36069
-This client on port 54812 has uuid e521ea05-5bf8-4e3d-a637-caff5164d354 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
-Connected Clients: play-fork-run-e521ea05-5bf8-4e3d-a637-caff5164d354
-Taking next connection to: 36069
