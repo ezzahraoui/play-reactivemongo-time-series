@@ -1,7 +1,7 @@
 package services
 
 import javax.inject.Inject
-import org.joda.time.DateTime
+import org.joda.time.LocalDateTime
 import java.util.UUID
 import scala.util.Random
 import scala.concurrent.Future
@@ -10,6 +10,13 @@ import scala.collection.mutable.ListBuffer
 import play.api.libs.json._
 import daos._
 import models._
+
+object DailyCarSpeedService {
+  case class Request(
+    _id: UUID,
+    date: LocalDateTime,
+    value: Int)
+}
 
 class DailyCarSpeedService @Inject() (dao: DailyCarSpeedDAO) {
   import DailyCarSpeedService._
@@ -49,11 +56,10 @@ class DailyCarSpeedService @Inject() (dao: DailyCarSpeedDAO) {
       val minutes = ListBuffer[MinutelyCarSpeed]()
       for (minute <- 0 to 59) {
         minutes += MinutelyCarSpeed(
-          date = Option(currentHour.plusMinutes(minute).toString),
-          value = None)
+          date = currentHour.plusMinutes(minute).toString,
+          value = 0)
       }
       hours += HourlyCarSpeed(
-        date = currentHour.toString,
         minutes = minutes)
     }
     DailyCarSpeed(request._id, day.toString, hours)
@@ -64,16 +70,9 @@ class DailyCarSpeedService @Inject() (dao: DailyCarSpeedDAO) {
     val day = request.date.minusMillis(request.date.getMillisOfDay)
     val hour = request.date.getHourOfDay()
     // TODO check returned value
-    val minute = request.date.getMinuteOfDay()
+    val minute =  0 //request.date.getMinuteOfDay()
     val query = UpdateQuery(request._id, day.toString)
     val updater = Updater(request.date.toString, hour, minute, request.value)
     (query, updater)
   }
-}
-
-object DailyCarSpeedService {
-  case class Request(
-    _id: UUID,
-    date: DateTime,
-    value: Int)
 }

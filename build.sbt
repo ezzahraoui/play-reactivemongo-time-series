@@ -10,6 +10,7 @@ libraryDependencies ++= Seq(
   "com.enragedginger" %% "akka-quartz-scheduler" % "1.6.0-akka-2.4.x",
   "net.codingwell" %% "scala-guice" % "4.1.0",
   "org.reactivemongo" %% "play2-reactivemongo" % "0.12.1",
+  "joda-time" % "joda-time" % "2.9.9",
   jdbc,
   cache,
   ws,

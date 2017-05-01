@@ -2,10 +2,14 @@ package actors
 
 import javax.inject.Inject
 import akka.actor._
-import org.joda.time.DateTime
+import org.joda.time.LocalDateTime
 import scala.util.Random
 import java.util.UUID
 import services._
+
+object CarSpeedGenerator {
+  case object Update
+}
 
 class CarSpeedGenerator @Inject() (service: DailyCarSpeedService) extends Actor {
   import CarSpeedGenerator._
@@ -16,11 +20,7 @@ class CarSpeedGenerator @Inject() (service: DailyCarSpeedService) extends Actor 
   def receive: Receive = {
     case Update =>
       val speed = Random.nextInt(200)
-      val date = new DateTime()
+      val date = new LocalDateTime()
       service.save(Request(_id, date, speed))
   }
-}
-
-object CarSpeedGenerator {
-  case object Update
 }
