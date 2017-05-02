@@ -19,10 +19,9 @@ class HomeController @Inject() (service: DailyCarSpeedService) extends Controlle
   }
 
   def findLastDay = Action.async { request =>
-    val _id = UUID.fromString("8ec5c456-78ca-4858-bf95-3448e05ae52a")
     val endDate = new LocalDateTime()
     val startDate = endDate.minusHours(24)
-    val findQuery = FindQuery(_id, startDate.toString, endDate.toString)
+    val findQuery = FindQuery(startDate.toString, endDate.toString)
     service.find(findQuery).map((list: List[JsObject]) => Ok(Json.toJson(list)))
   }
 

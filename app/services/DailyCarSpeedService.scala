@@ -13,7 +13,6 @@ import models._
 
 object DailyCarSpeedService {
   case class Request(
-    _id: UUID,
     date: LocalDateTime,
     value: Int)
 }
@@ -49,7 +48,7 @@ class DailyCarSpeedService @Inject() (dao: DailyCarSpeedDAO) {
 
   // Create DailyCarSpeed from service request
   private def createInsert(request: Request): DailyCarSpeed = {
-    val day = request.date.minusMillis(request.date.getMillisOfDay)
+    val day = request.date.toLocalDate().toDateTimeAtStartOfDay().toLocalDateTime()
     val hours = ListBuffer[HourlyCarSpeed]()
     for (hour <- 0 to 23) {
       val currentHour = day.plusHours(hour)
@@ -62,16 +61,15 @@ class DailyCarSpeedService @Inject() (dao: DailyCarSpeedDAO) {
       hours += HourlyCarSpeed(
         minutes = minutes)
     }
-    DailyCarSpeed(request._id, day.toString, hours)
+    DailyCarSpeed(UUID.randomUUID(),day.toString, hours)
   }
 
   // Create update query and updater from service request
   private def createUpdate(request: Request): Tuple2[UpdateQuery, Updater] = {
-    val day = request.date.minusMillis(request.date.getMillisOfDay)
+    val day = request.date.toLocalDate().toDateTimeAtStartOfDay().toLocalDateTime()
     val hour = request.date.getHourOfDay()
-    // TODO check returned value
-    val minute =  0 //request.date.getMinuteOfDay()
-    val query = UpdateQuery(request._id, day.toString)
+    val minute = request.date.getMinuteOfHour()
+    val query = UpdateQuery(day.toString)
     val updater = Updater(request.date.toString, hour, minute, request.value)
     (query, updater)
   }

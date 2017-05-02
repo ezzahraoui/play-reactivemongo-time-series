@@ -16,11 +16,9 @@ import reactivemongo.play.json.commands.JSONAggregationFramework._
 
 object DailyCarSpeedDAO {
   case class FindQuery(
-    _id: UUID,
     startDate: String,
     endDate: String)
   case class UpdateQuery(
-    _id: UUID,
     date: String)
   case class Updater(
     date: String,
@@ -59,7 +57,6 @@ class DailyCarSpeedDAO @Inject() (val reactiveMongoApi: ReactiveMongoApi) {
     val endDay = endDateTime.minusMillis(endDateTime.getMillisOfDay)
 
     val match1 = Match(Json.obj(
-      "_id" -> findQuery._id,
       "date" -> Json.obj(
         "$gte" -> startDay.toString,
         "$lte" -> endDay.toString)))
