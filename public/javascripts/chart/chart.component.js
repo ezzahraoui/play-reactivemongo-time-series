@@ -14,17 +14,27 @@
 	function AppChartController(DataFactory) {
 		var ctrl = this;
 		ctrl.chartConfig = {
-			chart: {
-				type: 'line'
+			options: {
+				chart: {
+					type: 'line',
+					zoomType: 'xy'
+				},
+				plotOptions: {
+					series: {
+						turboThreshold: 0
+					}
+				}
 			},
 			series: [{
+				name: 'Speed',
 				data: []
 			}],
 			title: {
 				text: ctrl.title
 			},
 			xAxis: [{
-				type: 'datetime'
+				type: 'datetime',
+				tickPixelInterval: 150
 			}],
 			yAxis: [{
 				title: {
@@ -47,7 +57,8 @@
 			var result = []
 			for (var index = 0; index < data.length; index++) {
 				result.push({
-					x: new Date(data[index].date),
+					// see http://api.highcharts.com/highcharts/global.useUTC
+					x: (new Date(data[index].date)).getTime(),
 					y: data[index].value
 				})
 			}
