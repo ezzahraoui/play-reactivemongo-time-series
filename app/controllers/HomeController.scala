@@ -14,8 +14,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 @Singleton
 class HomeController @Inject() (service: DailyCarSpeedService) extends Controller {
 
-  def index = Action {
-    Ok(Json.obj("name" -> "play2 reactivemongo time series example", "version" -> "1.0")).as("application/json")
+  def index = Action.async {
+    Future.successful(Ok(views.html.index("Home")))
   }
 
   def findLastDay = Action.async { request =>
@@ -25,4 +25,18 @@ class HomeController @Inject() (service: DailyCarSpeedService) extends Controlle
     service.find(findQuery).map((list: List[JsObject]) => Ok(Json.toJson(list)))
   }
 
+  def findLastDayByAbbr(abbreviation: String) = Action.async { request =>
+    val endDate = new LocalDateTime()
+    val startDate = endDate.minusHours(24)
+    val findQuery = FindQuery(startDate.toString, endDate.toString)
+    service.find(findQuery).map((list: List[JsObject]) => Ok(Json.toJson(list)))
+  }
+
+  private def getZone(abbreviation: String) = {
+  	abbreviation match {
+  		case "PST" => "America/Los_Angeles"
+  		case "CET" => "Europe/Paris"
+  		case _ => "Africa/Casablanca"
+  	}
+  }
 }

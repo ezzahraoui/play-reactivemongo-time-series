@@ -1,0 +1,23 @@
+@(title: String)
+
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+		<title>@title</title>
+		<link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/highcharts-ng/1.1.0/highcharts-ng.css" rel="stylesheet">
+	</head>
+	<body>
+		<app-chart title="Los angeles" time-zone="America/Los_Angeles"></app-chart>
+		<app-chart title="Paris" time-zone="Europe/Paris"></app-chart>
+		<app-chart title="Casablanca" time-zone="Africa/Casablanca"></app-chart>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/5.0.10/highcharts.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts-ng/1.1.0/highcharts-ng.min.js"></script>
+		<script src="@routes.Assets.versioned("javascripts/chart/chart.module.js")"></script>
+		<script src="@routes.Assets.versioned("javascripts/chart/chart.component.js")"></script>
+		<script src="@routes.Assets.versioned("javascripts/app.module.js")"></script>
+		<script src="@routes.Assets.versioned("javascripts/app.factory.js")"></script>
+	</body>
+</html>
