@@ -13,54 +13,25 @@
 
 	function AppChartController(DataFactory) {
 		var ctrl = this;
-		ctrl.chartConfig = {
-			options: {
-				chart: {
-					type: 'line',
-					zoomType: 'xy'
-				},
-				plotOptions: {
-					series: {
-						turboThreshold: 0
-					}
-				}
-			},
-			series: [{
-				name: 'Speed',
-				data: []
-			}],
-			title: {
-				text: ctrl.title
-			},
-			xAxis: [{
-				type: 'datetime',
-				tickPixelInterval: 150
-			}],
-			yAxis: [{
-				title: {
-					text: 'Speed'
-				}
-			}]
-		}
 		ctrl.$onInit = init;
 
 		function init() {
 			DataFactory.findLastDay().then(function(response) {
-				ctrl.chartConfig.series[0].data = fillChart(response.data);
-				console.log(ctrl.chartConfig.series[0].data)
+				Plotly.newPlot('chart', fillChart(response.data));
 			}, function(error) {
 				console.log(error);
 			});
 		}
 
 		function fillChart(data) {
-			var result = []
+			var result = [{
+				x: [],
+				y: [],
+				type: 'scatter'
+			}];
 			for (var index = 0; index < data.length; index++) {
-				result.push({
-					// see http://api.highcharts.com/highcharts/global.useUTC
-					x: (new Date(data[index].date)).getTime(),
-					y: data[index].value
-				})
+				result[0].x.push(data[index].date)
+				result[0].y.push(data[index].value)
 			}
 			return result;
 		}

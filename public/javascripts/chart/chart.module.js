@@ -1,5 +1,5 @@
 (function() {
 	'use strict';
 	angular
-		.module('app.chart', ['highcharts-ng']);
+		.module('app.chart', []);
 })();
