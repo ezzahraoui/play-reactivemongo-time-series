@@ -40,4 +40,8 @@ class DateTimeTestSpec extends FlatSpec with Matchers {
       .toString
     datetime should equal("2017-05-01T14:00:00.000-07:00")
   }
+  "ISODate withZone America/Los_Angeles" should "be 2017-05-01T21:00:00.000 after parsing to LocalDateTime" in {
+    val datetime = DateTime.parse("2017-05-01T14:00:00.000-07:00").toDateTime(DateTimeZone.UTC).toLocalDateTime().toString
+    datetime should equal("2017-05-01T21:00:00.000")
+  }
 }
